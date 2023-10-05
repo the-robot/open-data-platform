@@ -1,0 +1,12 @@
+<!-- src/main/resources/logback-spring.xml -->
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <springProperty scope="context" name="spring.application.name" source="spring.application.name"/>
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+
+    <!-- Define your loggers here -->
+    <logger name="com.odp.opendataplatform" level="INFO" />
+    <root level="INFO">
+        <appender-ref ref="CONSOLE" />
+    </root>
+</configuration>
