@@ -1,7 +1,7 @@
 version: '3'
 services:
   odp-redis:
-    image: redis:latest
+    image: redis:7.2.1
     container_name: odp-redis
     ports:
       - "6379:6379"
