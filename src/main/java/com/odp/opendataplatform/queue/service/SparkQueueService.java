@@ -6,10 +6,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Qualifier("uploadQueueService")
-public class SparkEnqueueService implements QueueService {
+public class SparkQueueService implements QueueService {
     private final StringRedisTemplate stringRedisTemplate;
 
-    public SparkEnqueueService(StringRedisTemplate stringRedisTemplate) {
+    public SparkQueueService(StringRedisTemplate stringRedisTemplate) {
         this.stringRedisTemplate = stringRedisTemplate;
     }
 
