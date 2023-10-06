@@ -9,11 +9,11 @@ services:
   odp-spark-master:
     image: apache/spark:3.5.0
     container_name: odp-spark-master
-    command: bin/spark-class org.apache.spark.deploy.master.Master -h spark-master
+    command: /opt/spark/bin/spark-class org.apache.spark.deploy.master.Master -h odp-spark-master
     ports:
       - "8080:8080"
 
   odp-spark-worker-1:
     image: apache/spark:3.5.0
     container_name: odp-spark-worker-1
-    command: bin/spark-class org.apache.spark.deploy.worker.Worker spark://spark-master:7077
+    command: /opt/spark/bin/spark-class org.apache.spark.deploy.worker.Worker spark://odp-spark-master:7077
