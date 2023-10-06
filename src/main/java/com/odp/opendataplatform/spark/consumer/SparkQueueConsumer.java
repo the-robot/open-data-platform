@@ -1,6 +1,6 @@
 package com.odp.opendataplatform.spark.consumer;
 
-import com.odp.opendataplatform.queue.service.SparkQueueService;
+import com.odp.opendataplatform.spark.service.SparkQueueService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,6 @@
 package com.odp.opendataplatform.tabular.service;
 
-import com.odp.opendataplatform.queue.service.SparkQueueService;
+import com.odp.opendataplatform.spark.service.SparkQueueService;
 import com.odp.opendataplatform.tabular.dto.UploadResult;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
