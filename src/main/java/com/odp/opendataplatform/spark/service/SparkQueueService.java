@@ -16,13 +16,13 @@ public class SparkQueueService implements QueueService {
 
     @Override
     public void enqueue(String queueName, String message) {
-        // Enqueue the message into the "upload" queue
+        // Enqueue the message into the "spark" queue
         stringRedisTemplate.opsForList().rightPush(queueName, message);
     }
 
     @Override
     public String dequeue(String queueName) {
-        // Dequeue a message from the "upload" queue
+        // Dequeue a message from the "spark" queue
         return stringRedisTemplate.opsForList().leftPop(queueName);
     }
 }
