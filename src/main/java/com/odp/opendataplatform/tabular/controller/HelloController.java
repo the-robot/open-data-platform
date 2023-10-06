@@ -1,4 +1,4 @@
-package com.odp.opendataplatform.controller;
+package com.odp.opendataplatform.tabular.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
