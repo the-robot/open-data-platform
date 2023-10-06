@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class TaskExecutorConfig {
-    @Bean
+    @Bean(name = "applicationTaskExecutor")
     public TaskExecutor taskExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(5); // Adjust the number of concurrent threads as needed
