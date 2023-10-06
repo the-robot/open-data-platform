@@ -21,14 +21,11 @@ public class UploadController {
     }
 
     @PostMapping("/upload")
-    public String upload(
-            @RequestParam("file") MultipartFile file,
-            @RequestParam("fileName") String desiredFileName
-    ) {
+    public String upload(@RequestParam("file") MultipartFile file) {
         logger.info("Received a file upload request");
 
         // Handle the result or return a response to the client
-        UploadResult result = uploadService.saveUploadedFile(file, desiredFileName);
+        UploadResult result = uploadService.saveUploadedFile(file);
         return result.getFilename();
     }
 }

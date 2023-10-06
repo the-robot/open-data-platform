@@ -20,13 +20,9 @@ public class UploadService {
     @Value("${uploadDir}")
     private String uploadDir;
 
-    public UploadResult saveUploadedFile(MultipartFile file, String desiredFileName) {
+    public UploadResult saveUploadedFile(MultipartFile file) {
         if (file.isEmpty()) {
             return new UploadResult(false, "Please select a file to upload.");
-        }
-        // check if filename is empty (only spaces or length 0)
-        if (!StringUtils.hasLength(desiredFileName.trim())) {
-            return new UploadResult(false, "Please enter a filename.");
         }
 
         try {
@@ -37,7 +33,7 @@ public class UploadService {
             }
 
             // Prefix the desired file name with a Unix timestamp
-            String fileName = System.currentTimeMillis() + "_" + desiredFileName;
+            String fileName = System.currentTimeMillis() + "_" + file.getName();
 
             // Save the uploaded file to the specified directory with the prefixed filename
             Path filePath = directoryPath.resolve(fileName);

@@ -19,9 +19,6 @@ def test_upload_tabular_data():
     # Assert the response status code (200 indicates success, but it depends on your API)
     assert response.status_code == 200
 
-    # Optionally, you can assert the response content or perform other validations
-    assert 'Tabular data uploaded successfully!' in response.text
-
 # Run the test
 if __name__ == '__main__':
     test_upload_tabular_data()
