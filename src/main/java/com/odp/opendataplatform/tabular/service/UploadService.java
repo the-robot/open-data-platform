@@ -33,7 +33,7 @@ public class UploadService {
             }
 
             // Prefix the desired file name with a Unix timestamp
-            String fileName = System.currentTimeMillis() + "_" + file.getName();
+            String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
 
             // Save the uploaded file to the specified directory with the prefixed filename
             Path filePath = directoryPath.resolve(fileName);
