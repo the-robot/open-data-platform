@@ -14,18 +14,15 @@ public class SparkJob {
 
     private final String sparkMaster;
     private final String appName;
-    private final String jobFilesPrefix;
 
     public SparkJob(
             @Value("${spark.master}") String sparkMaster,
-            @Value("${spark.app.name}") String appName,
-            @Value("${spark.job.files}") String jobFilesPrefix) {
+            @Value("${spark.app.name}") String appName) {
         this.sparkMaster = sparkMaster;
         this.appName = appName;
-        this.jobFilesPrefix = jobFilesPrefix;
     }
 
-    public void run(String fileName) {
+    public void run(String filePath) {
         SparkSession sparkSession = null;
 
         try {
@@ -36,15 +33,15 @@ public class SparkJob {
                     .getOrCreate();
 
             logger.info("Starting Spark job...");
-            logger.info("Job at {}", jobFilesPrefix + "/" + fileName);
+            logger.info("Job at {}", filePath);
 
             // Read the CSV file using Spark
-            Dataset<Row> data = sparkSession.read()
-                    .option("header", "true") // If the first row is a header
-                    .csv( jobFilesPrefix + "/" + fileName);
-
-            // Show the content
-            data.show();
+//            Dataset<Row> data = sparkSession.read()
+//                    .option("header", "true") // If the first row is a header
+//                    .csv( jobFilesPrefix + "/" + fileName);
+//
+//            // Show the content
+//            data.show();
 
             logger.info("Spark job completed successfully.");
         } catch (Exception e) {
