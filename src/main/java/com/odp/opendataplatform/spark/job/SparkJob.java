@@ -41,8 +41,7 @@ public class SparkJob {
             // Read the CSV file using Spark
             Dataset<Row> data = sparkSession.read()
                     .option("header", "true") // If the first row is a header
-                    // .csv( jobFilesPrefix + "/" + fileName);
-                            .csv("file:///job-data/1696667609016_example.csv");
+                    .csv( jobFilesPrefix + "/" + fileName);
 
             // Show the content
             data.show();
