@@ -13,12 +13,22 @@ services:
     ports:
       - "8081:8080" # spark web ui port
       - "7077:7077" # spark master port
-    volumes:
-      - ./development-data/uploads:/job-data:rw
 
   odp-spark-worker-1:
     image: apache/spark:3.5.0
     container_name: odp-spark-worker-1
     command: /opt/spark/bin/spark-class org.apache.spark.deploy.worker.Worker spark://odp-spark-master:7077
-    volumes:
-      - ./development-data/uploads:/job-data:rw
+
+  odp-hadoop:
+    image: sequenceiq/hadoop-docker:latest
+    container_name: odp-hadoop
+    command: /etc/bootstrap.sh -d
+    ports:
+      - "50070:50070" # HDFS NameNode web UI port (Expose to host)
+      - "8088:8088"   # ResourceManager web UI port (Expose to host)
+    networks:
+      - hadoop-net
+
+networks:
+  hadoop-net:
+    driver: bridge
