@@ -1,4 +1,4 @@
-package com.odp.opendataplatform.file.service;
+package com.odp.opendataplatform.hadoop.service;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
@@ -15,11 +15,11 @@ import java.io.OutputStream;
 import java.net.URI;
 
 @Service
-public class FileService {
+public class HadoopService {
     @Value("${hdfs.master.uri}")
     private String hdfsMasterUri; // HDFS master URI, e.g., "hdfs://odp-hadoop:9000"
 
-    private static final Logger logger = LoggerFactory.getLogger(FileService.class);
+    private static final Logger logger = LoggerFactory.getLogger(HadoopService.class);
 
     public String saveFileToHDFS(MultipartFile file) throws IOException {
         // Hadoop configuration

@@ -15,11 +15,15 @@ public class SparkJob {
     private final String sparkMaster;
     private final String appName;
 
+    private final String hadoopUri;
+
     public SparkJob(
             @Value("${spark.master}") String sparkMaster,
-            @Value("${spark.app.name}") String appName) {
+            @Value("${spark.app.name}") String appName,
+            @Value("${hdfs.master.spark.uri}") String hadoopUri) {
         this.sparkMaster = sparkMaster;
         this.appName = appName;
+        this.hadoopUri = hadoopUri;
     }
 
     public void run(String filePath) {
@@ -38,7 +42,7 @@ public class SparkJob {
             // Read the CSV file using Spark
             Dataset<Row> data = sparkSession.read()
                     .option("header", "true") // If the first row is a header
-                    .csv( "hdfs://localhost:9000" + filePath);
+                    .csv( this.hadoopUri + filePath);
 
             // Show the content
             data.show();

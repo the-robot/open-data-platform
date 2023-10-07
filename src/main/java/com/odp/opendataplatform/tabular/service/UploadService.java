@@ -1,6 +1,6 @@
 package com.odp.opendataplatform.tabular.service;
 
-import com.odp.opendataplatform.file.service.FileService;
+import com.odp.opendataplatform.hadoop.service.HadoopService;
 import com.odp.opendataplatform.spark.queue.SparkQueuePublisher;
 import com.odp.opendataplatform.tabular.dto.UploadResult;
 import org.springframework.stereotype.Service;
@@ -9,16 +9,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.nio.file.Path;
 
 @Service
 public class UploadService {
     private static final Logger logger = LoggerFactory.getLogger(UploadService.class);
-    private final FileService fileService;
+    private final HadoopService hadoopService;
     private final SparkQueuePublisher sparkQueuePublisher;
 
-    public UploadService(FileService fileService, SparkQueuePublisher sparkQueuePublisher) {
-        this.fileService = fileService;
+    public UploadService(HadoopService hadoopService, SparkQueuePublisher sparkQueuePublisher) {
+        this.hadoopService = hadoopService;
         this.sparkQueuePublisher = sparkQueuePublisher;
     }
 
@@ -29,7 +28,7 @@ public class UploadService {
 
         try {
             // Save the uploaded file to HDFS using the FileService
-            String hdfsFilePath = fileService.saveFileToHDFS(file);
+            String hdfsFilePath = hadoopService.saveFileToHDFS(file);
 
             logger.info("File uploaded and saved to HDFS: {}", hdfsFilePath);
 
