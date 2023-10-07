@@ -28,14 +28,15 @@ public class UploadService {
         }
 
         try {
-            Path filePath = fileService.saveFile(file);
-            String fileName = fileService.getFileName(filePath);
-            logger.info("File uploaded and saved to: {}", filePath.toString());
+            // Save the uploaded file to HDFS using the FileService
+            String hdfsFilePath = fileService.saveFileToHDFS(file);
 
-            // Enqueue a message with the file name using the SparkQueuePublisher
-            sparkQueuePublisher.enqueue(fileName);
+            logger.info("File uploaded and saved to HDFS: {}", hdfsFilePath);
 
-            return new UploadResult(true, fileName);
+            // Enqueue a message with the HDFS file path using the SparkQueuePublisher
+            sparkQueuePublisher.enqueue(hdfsFilePath);
+
+            return new UploadResult(true, hdfsFilePath);
         } catch (IOException e) {
             logger.error("Error uploading file: {}", e.getMessage());
             return new UploadResult(false, "Error uploading file.");

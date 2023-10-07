@@ -1,45 +1,53 @@
 package com.odp.opendataplatform.file.service;
 
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.Path;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URI;
 
 @Service
 public class FileService {
-    @Value("${uploadDir}")
-    private String uploadDir;
+    @Value("${hdfs.master.uri}")
+    private String hdfsMasterUri; // HDFS master URI, e.g., "hdfs://odp-hadoop:9000"
 
     private static final Logger logger = LoggerFactory.getLogger(FileService.class);
 
-    public Path saveFile(MultipartFile file) throws IOException {
-        // Create the directory if it doesn't exist
-        Path directoryPath = Path.of(uploadDir);
-        if (!Files.exists(directoryPath)) {
-            Files.createDirectories(directoryPath);
-        }
+    public String saveFileToHDFS(MultipartFile file) throws IOException {
+        // Hadoop configuration
+        Configuration conf = new Configuration();
+        conf.set("fs.defaultFS", hdfsMasterUri);
+
+        // Hadoop FileSystem
+        FileSystem fs = FileSystem.get(URI.create(hdfsMasterUri), conf);
 
         // Prefix the desired file name with a Unix timestamp
         String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
 
-        // Save the uploaded file to the specified directory with the prefixed filename
-        Path filePath = directoryPath.resolve(fileName);
-        Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+        // Path on HDFS where the file will be stored
+        String hdfsFilePath = "/user/odp/" + fileName; // Modify as needed
 
-        return filePath;
-    }
+        try (InputStream in = file.getInputStream();
+             OutputStream out = fs.create(new Path(hdfsFilePath))) {
 
-    public String getFileName(Path filePath) {
-        return filePath.getFileName().toString();
-    }
+            // Copy data from the uploaded file to HDFS
+            byte[] buffer = new byte[4096];
+            int bytesRead;
+            while ((bytesRead = in.read(buffer)) > 0) {
+                out.write(buffer, 0, bytesRead);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-    public byte[] readFile(String filePath) throws IOException {
-        return Files.readAllBytes(Path.of(filePath));
+        return hdfsFilePath;
     }
 }
