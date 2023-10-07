@@ -19,6 +19,9 @@ public class HadoopService {
     @Value("${hdfs.master.uri}")
     private String hdfsMasterUri; // HDFS master URI, e.g., "hdfs://odp-hadoop:9000"
 
+    @Value("${hdfs.user}")
+    private String hdfsUser;
+
     private static final Logger logger = LoggerFactory.getLogger(HadoopService.class);
 
     public String saveFileToHDFS(MultipartFile file) throws IOException {
@@ -33,10 +36,9 @@ public class HadoopService {
         String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
 
         // Path on HDFS where the file will be stored
-        String hdfsFilePath = "/user/odp/" + fileName; // Modify as needed
+        String hdfsFilePath = this.hdfsUser + fileName;
 
-        try (InputStream in = file.getInputStream();
-             OutputStream out = fs.create(new Path(hdfsFilePath))) {
+        try (InputStream in = file.getInputStream(); OutputStream out = fs.create(new Path(hdfsFilePath))) {
 
             // Copy data from the uploaded file to HDFS
             byte[] buffer = new byte[4096];
