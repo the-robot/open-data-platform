@@ -27,9 +27,3 @@ services:
       - "50070:50070" # HDFS NameNode web UI port (Expose to host)
       - "8088:8088"   # ResourceManager web UI port (Expose to host)
       - "9000:9000"   # HDFS default port (Expose to host)
-    networks:
-      - hadoop-net
-
-networks:
-  hadoop-net:
-    driver: bridge

@@ -36,12 +36,12 @@ public class SparkJob {
             logger.info("Job at {}", filePath);
 
             // Read the CSV file using Spark
-//            Dataset<Row> data = sparkSession.read()
-//                    .option("header", "true") // If the first row is a header
-//                    .csv( jobFilesPrefix + "/" + fileName);
-//
-//            // Show the content
-//            data.show();
+            Dataset<Row> data = sparkSession.read()
+                    .option("header", "true") // If the first row is a header
+                    .csv( "hdfs://localhost:9000" + filePath);
+
+            // Show the content
+            data.show();
 
             logger.info("Spark job completed successfully.");
         } catch (Exception e) {
