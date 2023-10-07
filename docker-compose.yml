@@ -13,8 +13,12 @@ services:
     ports:
       - "8081:8080" # spark web ui port
       - "7077:7077" # spark master port
+    volumes:
+      - ./development-data/uploads:/job-data
 
   odp-spark-worker-1:
     image: apache/spark:3.5.0
     container_name: odp-spark-worker-1
     command: /opt/spark/bin/spark-class org.apache.spark.deploy.worker.Worker spark://odp-spark-master:7077
+    volumes:
+      - ./development-data/uploads:/job-data

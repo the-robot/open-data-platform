@@ -28,10 +28,10 @@ public class SparkQueueConsumer {
             logger.info("Received spark job message to queue on channel {}: {}", channel, content);
 
             // Extract the file name from the message content (modify as needed)
-            String filePath = extractFileName(content);
+            String fileName = extractFileName(content);
 
             // Call the SparkJob with the extracted file name
-            sparkJob.run(filePath);
+            sparkJob.run(fileName);
         };
     }
 

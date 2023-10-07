@@ -33,7 +33,7 @@ public class UploadService {
             logger.info("File uploaded and saved to: {}", filePath.toString());
 
             // Enqueue a message with the file name using the SparkQueuePublisher
-            sparkQueuePublisher.enqueue(filePath.toString());
+            sparkQueuePublisher.enqueue(fileName);
 
             return new UploadResult(true, fileName);
         } catch (IOException e) {
