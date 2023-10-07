@@ -20,7 +20,7 @@ public class SparkJob {
         this.appName = appName;
     }
 
-    public void run(String filename) {
+    public void run(String filePath) {
         SparkSession sparkSession = null;
 
         try {
@@ -33,7 +33,7 @@ public class SparkJob {
             logger.info("Starting Spark job...");
 
             // Your Spark job logic here
-            logger.info(filename);
+            logger.info(filePath);
 
             logger.info("Spark job completed successfully.");
         } catch (Exception e) {
