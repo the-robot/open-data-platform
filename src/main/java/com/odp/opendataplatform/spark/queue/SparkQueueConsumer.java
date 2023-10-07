@@ -2,13 +2,21 @@ package com.odp.opendataplatform.spark.queue;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.MessageListener;
+import com.odp.opendataplatform.spark.job.SparkJob; // Import SparkJob
 
 @Configuration
 public class SparkQueueConsumer {
     private static final Logger logger = LoggerFactory.getLogger(SparkQueueConsumer.class);
+    private final SparkJob sparkJob;
+
+    @Autowired
+    public SparkQueueConsumer(SparkJob sparkJob) {
+        this.sparkJob = sparkJob;
+    }
 
     @Bean
     public MessageListener sparkJobMessageListener() {
@@ -17,15 +25,20 @@ public class SparkQueueConsumer {
             String content = new String(message.getBody());
 
             // Handle the received message (content) based on the channel
-            logger.info("Received Spark job message on channel {}: {}", channel, content);
+            logger.info("Received spark job message to queue on channel {}: {}", channel, content);
 
-            // Trigger the appropriate Spark job based on the message content
-            // Implement logic to start the Spark job here
-            // This code will run in the same thread as the Redis message listener
-            // ...
+            // Extract the file name from the message content (modify as needed)
+            String fileName = extractFileName(content);
 
-            // Note: Be cautious about long-running tasks in the message listener
-            // If your Spark job logic takes a long time, consider using async processing.
+            // Call the SparkJob with the extracted file name
+            sparkJob.run(fileName);
         };
+    }
+
+    // Implement a method to extract the file name from the message content
+    private String extractFileName(String messageContent) {
+        // Implement your logic to extract the file name from the message content
+        // For example, if the messageContent contains the file name, extract it here.
+        return messageContent;
     }
 }
