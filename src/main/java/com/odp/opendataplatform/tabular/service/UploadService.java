@@ -1,6 +1,6 @@
 package com.odp.opendataplatform.tabular.service;
 
-import com.odp.opendataplatform.spark.service.SparkQueueService;
+import com.odp.opendataplatform.spark.queue.SparkQueuePublisher;
 import com.odp.opendataplatform.tabular.dto.UploadResult;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -16,13 +16,13 @@ import java.nio.file.StandardCopyOption;
 @Service
 public class UploadService {
     private static final Logger logger = LoggerFactory.getLogger(UploadService.class);
-    private final SparkQueueService sparkQueueService;
+    private final SparkQueuePublisher sparkQueuePublisher;
 
     @Value("${uploadDir}")
     private String uploadDir;
 
-    public UploadService(SparkQueueService sparkQueueService) {
-        this.sparkQueueService = sparkQueueService;
+    public UploadService(SparkQueuePublisher sparkQueuePublisher) {
+        this.sparkQueuePublisher = sparkQueuePublisher;
     }
 
     public UploadResult saveUploadedFile(MultipartFile file) {
@@ -46,8 +46,8 @@ public class UploadService {
 
             logger.info("File uploaded and saved to: {}", filePath.toString());
 
-            // Enqueue a message with the file name
-            sparkQueueService.enqueue("spark-job-queue", fileName);
+            // Enqueue a message with the file name using the SparkQueuePublisher
+            sparkQueuePublisher.enqueue(fileName);
 
             return new UploadResult(true, fileName); // Return a custom result object
         } catch (IOException e) {

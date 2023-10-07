@@ -1,4 +1,4 @@
-package com.odp.opendataplatform.spark.consumer.config;
+package com.odp.opendataplatform.spark.queue.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.task.TaskExecutor;

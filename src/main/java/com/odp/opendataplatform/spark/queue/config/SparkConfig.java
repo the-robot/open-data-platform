@@ -1,4 +1,4 @@
-package com.odp.opendataplatform.spark.consumer.config;
+package com.odp.opendataplatform.spark.queue.config;
 
 import org.apache.spark.sql.SparkSession;
 import org.springframework.beans.factory.annotation.Value;
