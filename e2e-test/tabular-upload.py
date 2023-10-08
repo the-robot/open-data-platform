@@ -7,7 +7,7 @@ def test_upload_tabular_data():
 
     # Create a temporary CSV file with sample data
     with tempfile.NamedTemporaryFile(suffix='.csv', delete=False) as temp_file:
-        temp_file.write(b'name,email\njohn,john@google.com\nemma,emma@yahoo.com\n')
+        temp_file.write(b'name,email\njohn,joh\nemma,emma@yahoo.com\n')
         temp_file.seek(0)
 
         # Define the file to upload
