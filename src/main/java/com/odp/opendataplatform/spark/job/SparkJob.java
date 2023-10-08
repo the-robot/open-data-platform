@@ -36,8 +36,7 @@ public class SparkJob {
                     .master(sparkMaster)
                     .getOrCreate();
 
-            logger.info("Starting Spark job...");
-            logger.info("Job at {}", filePath);
+            logger.info("Starting Spark job for file: {}", filePath);
 
             // Read the CSV file using Spark
             Dataset<Row> data = sparkSession.read()

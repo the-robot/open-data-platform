@@ -22,9 +22,15 @@ public class HadoopService {
     @Value("${hdfs.user}")
     private String hdfsUser;
 
-    private static final Logger logger = LoggerFactory.getLogger(HadoopService.class);
+    public String saveUploads(MultipartFile file) throws IOException {
+        return this.saveToHDFS("uploads", file);
+    }
 
-    public String saveFileToHDFS(MultipartFile file) throws IOException {
+    public String savePraquet(MultipartFile file) throws IOException {
+        return this.saveToHDFS("parquet", file);
+    }
+
+    private String saveToHDFS(String directory, MultipartFile file) throws IOException {
         // Hadoop configuration
         Configuration conf = new Configuration();
         conf.set("fs.defaultFS", hdfsMasterUri);
@@ -36,7 +42,7 @@ public class HadoopService {
         String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
 
         // Path on HDFS where the file will be stored
-        String hdfsFilePath = this.hdfsUser + fileName;
+        String hdfsFilePath = this.hdfsUser + "/" + directory + "/" + fileName;
 
         try (InputStream in = file.getInputStream(); OutputStream out = fs.create(new Path(hdfsFilePath))) {
 

@@ -28,7 +28,7 @@ public class UploadService {
 
         try {
             // Save the uploaded file to HDFS using the FileService
-            String hdfsFilePath = hadoopService.saveFileToHDFS(file);
+            String hdfsFilePath = hadoopService.saveUploads(file);
 
             logger.info("File uploaded and saved to HDFS: {}", hdfsFilePath);
 
