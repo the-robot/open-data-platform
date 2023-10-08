@@ -18,6 +18,8 @@ services:
     image: apache/spark:3.5.0
     container_name: odp-spark-worker-1
     command: /opt/spark/bin/spark-class org.apache.spark.deploy.worker.Worker spark://odp-spark-master:7077
+    volumes:
+      - ./libs:/open-data-platform:rw
 
   odp-hadoop:
     image: sequenceiq/hadoop-docker:latest
