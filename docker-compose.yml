@@ -19,7 +19,10 @@ services:
       context: .
       dockerfile: spark-worker.Dockerfile
     container_name: odp-spark-worker-1
+    depends_on:
+      - odp-spark-master
     command: /opt/spark/bin/spark-class org.apache.spark.deploy.worker.Worker spark://odp-spark-master:7077
+
 
   odp-hadoop:
     image: sequenceiq/hadoop-docker:latest
