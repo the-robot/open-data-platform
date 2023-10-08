@@ -1,6 +1,6 @@
 package com.odp.opendataplatform.spark.job;
 
-import com.odp.opendataplatform.spark.validator.CommonValidator;
+import com.odp.spark.Validator;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
@@ -9,8 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,7 +22,7 @@ public class SparkJob {
 
     private final String hadoopUri;
 
-    private final CommonValidator commonValidator = new CommonValidator();
+    private final Validator sparkValidator = new Validator();
 
     public SparkJob(
             @Value("${spark.master}") String sparkMaster,
@@ -61,7 +59,7 @@ public class SparkJob {
 
 
             // validate email
-            Map<String, List<Integer>> errors = this.commonValidator.validateEmailColumn(data, "email");
+            Map<String, List<Integer>> errors = this.sparkValidator.validateEmailColumn(data, "email");
 
             // Show the content
             data.show();

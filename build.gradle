@@ -24,6 +24,9 @@ dependencies {
     implementation 'org.apache.spark:spark-sql_2.12:3.5.0'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+    // odp packages
+    implementation files('libs/com.odp.spark-1.0-SNAPSHOT.jar')
 }
 
 bootRun {
